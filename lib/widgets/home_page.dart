@@ -1,9 +1,10 @@
-// ignore_for_file: use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
+
+import './drawer.dart';
 
 class HomePage extends StatelessWidget {
   static String tag = 'home-tag';
+  HomePage({Key? key}) : super(key: key);
 
   Widget mealCategories(
     Size mediaQuery,
@@ -38,50 +39,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  final drawer = Drawer(
-    child: ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        DrawerHeader(
-          decoration: BoxDecoration(
-            color: Colors.yellow.shade800,
-          ),
-          child: Text(
-            'Cooking Up!',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              color: Colors.red.shade600,
-              fontWeight: FontWeight.bold,
-              fontSize: 35,
-            ),
-          ),
-        ),
-        ListTile(
-          leading: const Icon(Icons.emoji_food_beverage),
-          title: const Text(
-            'Meals',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-          onTap: () {},
-        ),
-        ListTile(
-          leading: const Icon(Icons.settings),
-          title: const Text(
-            'Filters',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-          onTap: () {},
-        ),
-      ],
-    ),
-  );
-
   final buttomNavi = BottomNavigationBar(
     backgroundColor: Colors.pink,
     selectedItemColor: Colors.orange,
@@ -110,7 +67,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Categories'),
       ),
-      drawer: drawer,
+      drawer: const DrawerList(),
       body: Card(
         child: Table(
           children: [

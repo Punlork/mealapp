@@ -2,11 +2,17 @@
 
 import 'package:flutter/material.dart';
 
-import './models/home_page.dart';
+import './widgets/home_page.dart';
+import './widgets/filter_page.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  final routes = <String, WidgetBuilder>{
+    HomePage.tag: (context) => HomePage(),
+    FilterPage.tag: (context) => const FilterPage(),
+  };
+
   @override
   Widget build(BuildContext context) {
     const String _category = 'Categories';
@@ -16,6 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primaryColor: Colors.pink),
       home: HomePage(),
       debugShowCheckedModeBanner: false,
+      routes: routes,
     );
   }
 }
