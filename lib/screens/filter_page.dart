@@ -1,10 +1,11 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 
-import 'drawer.dart';
+import '../widgets/drawer.dart';
 
 class FilterPage extends StatefulWidget {
   static String tag = 'filter-tag';
-  const FilterPage({Key? key}) : super(key: key);
 
   @override
   State<FilterPage> createState() => _FilterPageState();
@@ -87,7 +88,7 @@ class _FilterPageState extends State<FilterPage> {
           ),
         ],
       ),
-      drawer: const DrawerList(),
+      drawer: DrawerList(),
       body: Column(
         children: [
           title(mediaQuery),

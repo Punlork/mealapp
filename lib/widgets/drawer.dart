@@ -1,11 +1,11 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 
-import 'filter_page.dart';
-import 'home_page.dart';
+import '../screens/filter_page.dart';
+import '../screens/home_page.dart';
 
 class DrawerList extends StatelessWidget {
-  const DrawerList({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
