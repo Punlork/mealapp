@@ -7,12 +7,29 @@ import '../widgets/drawer.dart';
 class FilterPage extends StatefulWidget {
   static String tag = 'filter-tag';
 
+  final Function saveFilters;
+  final Map<String, bool> currentFilters;
+
+  const FilterPage(this.currentFilters, this.saveFilters);
+
   @override
   State<FilterPage> createState() => _FilterPageState();
 }
 
 class _FilterPageState extends State<FilterPage> {
-  Map<String, bool> isSwitched = {};
+  var _glutenFree = false;
+  var _vegetarian = false;
+  var _vegan = false;
+  var _lactoseFree = false;
+
+  @override
+  initState() {
+    _glutenFree = widget.currentFilters['gluten'];
+    _lactoseFree = widget.currentFilters['lactose'];
+    _vegan = widget.currentFilters['vegan'];
+    _vegetarian = widget.currentFilters['vegetarian'];
+    super.initState();
+  }
 
   Widget title(Size mediaQuery) {
     return Container(
@@ -30,43 +47,17 @@ class _FilterPageState extends State<FilterPage> {
     );
   }
 
-  Widget filterList(String title, String subText, Size mediaQuery) {
-    return Container(
-      margin: const EdgeInsets.all(15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 17,
-                ),
-              ),
-              Text(
-                subText,
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 15,
-                ),
-              ),
-            ],
-          ),
-          Switch(
-            value: isSwitched[title] ?? false,
-            onChanged: (value) {
-              setState(() {
-                isSwitched[title] = value;
-              });
-            },
-            activeTrackColor: Colors.pinkAccent,
-            activeColor: Colors.pink,
-          ),
-        ],
-      ),
+  Widget filterList(
+    String title,
+    String description,
+    bool currentValue,
+    Function updateValue,
+  ) {
+    return SwitchListTile(
+      title: Text(title),
+      value: currentValue,
+      subtitle: Text(description),
+      onChanged: updateValue,
     );
   }
 
@@ -81,7 +72,15 @@ class _FilterPageState extends State<FilterPage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              final selectedFilter = {
+                'gluten': _glutenFree,
+                'lactose': _lactoseFree,
+                'vegan': _vegan,
+                'vegetarian': _vegetarian,
+              };
+              widget.saveFilters(selectedFilter);
+            },
             icon: const Icon(
               Icons.save,
             ),
@@ -92,25 +91,59 @@ class _FilterPageState extends State<FilterPage> {
       body: Column(
         children: [
           title(mediaQuery),
-          filterList(
-            'Gluten-free',
-            'Only include gluten-free meals',
-            mediaQuery,
-          ),
-          filterList(
-            'Lactose-free',
-            'Only include lactose-free meals',
-            mediaQuery,
-          ),
-          filterList(
-            'Vegeterian',
-            'Only include vegeterian meals',
-            mediaQuery,
-          ),
-          filterList(
-            'Vegan',
-            'Only include vegan meals',
-            mediaQuery,
+          Expanded(
+            child: ListView(
+              children: [
+                filterList(
+                  'Gluten-free',
+                  'Only include gluten-free meals',
+                  _glutenFree,
+                  (newValue) {
+                    setState(
+                      () {
+                        _glutenFree = newValue;
+                      },
+                    );
+                  },
+                ),
+                filterList(
+                  'Lactose-free',
+                  'Only include lactose-free meals',
+                  _lactoseFree,
+                  (newValue) {
+                    setState(
+                      () {
+                        _lactoseFree = newValue;
+                      },
+                    );
+                  },
+                ),
+                filterList(
+                  'Vegeterian',
+                  'Only include vegeterian meals',
+                  _vegetarian,
+                  (newValue) {
+                    setState(
+                      () {
+                        _vegetarian = newValue;
+                      },
+                    );
+                  },
+                ),
+                filterList(
+                  'Vegan',
+                  'Only include vegan meals',
+                  _vegan,
+                  (newValue) {
+                    setState(
+                      () {
+                        _vegan = newValue;
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
